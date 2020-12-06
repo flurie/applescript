@@ -25,8 +25,8 @@ __install_daemon() {
 			launchctl load "${LAUNCHD_DIR}/${file}"
 		done
 	elif [[ -f "${TARGET}" ]]; then
-		sed -e "s|{home}|${HOME}|" <"launchd/${REVERSE_DOM}.${TARGET%.*}.plist" >"${LAUNCHD_DIR}/"
-		launchctl load "${LAUNCHD_DIR}/${REVERSE_DOM}.${TARGET%.*}"
+		sed -e "s|{home}|${HOME}|" <"launchd/${REVERSE_DOM}.$(basename ${TARGET%.*}).plist" >"${LAUNCHD_DIR}/${REVERSE_DOM}.$(basename ${TARGET%.*}).plist"
+		launchctl load "${LAUNCHD_DIR}/${REVERSE_DOM}.$(basename ${TARGET%.*}).plist"
 	fi
 }
 
@@ -41,9 +41,8 @@ __teardown() {
 		done
 		echo "Removed all scripts."
 	else
-		launchctl unload "${LAUNCHD_DIR}/${REVERSE_DOM}.${TARGET%.*}.plist"
-		rm "${LAUNCHD_DIR}/${REVERSE_DOM}.${TARGET%.*}.plist"
-		rm "${SCRIPT_DIR}/${file}"
+		launchctl unload "${LAUNCHD_DIR}/${REVERSE_DOM}.$(basename ${TARGET%.*}).plist"
+		rm "${LAUNCHD_DIR}/${REVERSE_DOM}.$(basename ${TARGET%.*}).plist"
 		echo "Removed ${TARGET}"
 	fi
 }
